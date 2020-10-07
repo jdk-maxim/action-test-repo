@@ -13,7 +13,7 @@ pylint --version
 
 pip3 install -r requirements.txt 
 
-if [ $? != 0 ]
+if pip3 install -r requirements.txt != 0
 then
 	echo "Failed to install requirements.txt"
 	exit 1
@@ -46,7 +46,7 @@ fi
 echo "Running pylint on compute.py"
 pylint bad_compute.py
 
-if [ $? == 0 ]
+if [ $? = 0 ]
 then
 	echo "Expected this to fail"
 	exit 1 
