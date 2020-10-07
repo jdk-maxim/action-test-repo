@@ -1,57 +1,67 @@
 #!/bin/sh -l
 
+do_a_test_expect_success()
+{
+	echo
+	echo "\t ***> Running Test $2 with command: $1"
+	echo
+
+	# Run the command, parameter 1
+	$1
+
+	if [ $? != 0 ]
+	then
+		echo
+		echo "\t ***> Failed to $2"
+		echo
+		exit 1
+	else
+		echo
+		echo "\t ***> $2 Completed without Error"
+		echo
+	fi
+}
+
+do_a_test_expect_failure()
+{
+	echo
+	echo "\t ***> Running Test $2 with command: $1"
+	echo
+
+	# Run the command, parameter 1
+	$1
+
+	if [ $? = 0 ]
+	then
+		echo
+		echo "\t ***> $2 Completed without Error, but was expected to fail"
+		echo
+		exit 1
+	else
+		echo
+		echo "\t ***> $2 Failed as expected"
+		echo
+	fi
+}
+
 echo "Starting push actions"
 echo "Running on OS: $(uname -a)"
 which python3
 python3 --version
 pip3 --version
 
+# FIXME: these should be in requirements.txt
 pip3 install Cython 
 pip3 install pylint
 
 pylint --version
 
-pip3 install -r requirements.txt 
+do_a_test_expect_success "pip3 install -r requirements.txt" "Install requirements.txt"
+do_a_test_expect_success "pip3 install -r requirements_distiller.txt" "Install requirements_distiller.txt"
 
-if pip3 install -r requirements.txt != 0
-then
-	echo "Failed to install requirements.txt"
-	exit 1
-else
-	echo "requirements.txt install passed" 
-fi
-
-pip3 install -r requirements_distiller.txt 
-if [ $? != 0 ]
-then
-	echo "Failed to install requirements_distiller.txt"
-	exit 1
-else
-	echo "requirements_distiller.txt install passed"
-fi
-
+# command to check all python files modified in this commit
+# will NOT run in tensorflow docker unless git is installed
 #git diff master | grep "diff --" | grep "\.py$" | awk '{ print $4 }' | sed "s/^b/\./" | xargs pylint
 
-echo "Running pylint on compute.py"
-pylint compute.py
-
-if [ $? != 0 ]
-then
-	echo "Expected this to pass"
-	exit 1
-else
-	echo "compute.py pylint passes" 
-fi
-
-echo "Running pylint on compute.py"
-pylint bad_compute.py
-
-if [ $? = 0 ]
-then
-	echo "Expected this to fail"
-	exit 1 
-else
-	echo "bad_compute.py pylint return code: " $?
-fi
-
-# exit 1 for errors, exit 0 for success
+do_a_test_expect_success "pylint compute.py" "pylint compute.py"
+do_a_test_expect_failure "pylint bad_compute.py" "pylint bad_compute.py"
