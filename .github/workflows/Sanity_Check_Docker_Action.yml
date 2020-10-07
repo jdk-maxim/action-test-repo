@@ -1,0 +1,23 @@
+name: Sanity_Check_Docker_Action
+
+on: push
+
+jobs:
+  Sanity_Check:
+    runs-on: ubuntu-latest
+    name: A job to run some basic tests on our python scripts
+    steps:
+    # Checks out a copy of your repository on the ubuntu-latest machine
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: tensorflow_action step
+      id: tensorflow_action
+      uses: jdk-maxim/tensorflow-docker-action@master
+      with:
+        file-to-run: 'push_actions.sh'
+    # Use the output from the `tensorflow_action` step
+    - name: File run status
+      run: echo "File run status is ${{ steps.tensorflow_action.outputs.file_run_status }}"
+    - name: File run status eval
+      run: exit ${{ steps.tensorflow_action.outputs.file_run_status }}

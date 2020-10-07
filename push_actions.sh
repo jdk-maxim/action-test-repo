@@ -1,6 +1,6 @@
 #!/bin/sh -l
 
-echo "Staring push actions"
+echo "Starting push actions"
 echo "Running on OS: $(uname -a)"
 which python3
 python3 --version
@@ -31,7 +31,8 @@ else
 fi
 
 #git diff master | grep "diff --" | grep "\.py$" | awk '{ print $4 }' | sed "s/^b/\./" | xargs pylint
-#echo "git diff pylint return code: " $?
+
+echo "Running pylint on compute.py"
 pylint compute.py
 
 if [ $? != 0 ]
@@ -42,6 +43,7 @@ else
 	echo "compute.py pylint passes" 
 fi
 
+echo "Running pylint on compute.py"
 pylint bad_compute.py
 
 if [ $? == 0 ]
