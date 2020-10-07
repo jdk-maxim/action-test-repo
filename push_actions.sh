@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh -l
 
 echo "Staring push actions"
 ls
