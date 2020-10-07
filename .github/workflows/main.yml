@@ -21,4 +21,6 @@ jobs:
     - name: Get the output time
       run: echo "The time was ${{ steps.hello.outputs.time }}"
     - name: File run status
-      run: echo "File run stauts is ${{ steps.hello.outputs.file_run_status }}"
+      run: echo "File run status is ${{ steps.hello.outputs.file_run_status }}"
+    - name: File run status eval
+      run: exit ${{ steps.hello.outputs.file_run_status }}
