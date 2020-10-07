@@ -2,6 +2,7 @@
 
 echo "Staring push actions"
 ls
+echo "Running on OS: $(uname -a)"
 git status
 git log -n 3
 which python3
