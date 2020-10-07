@@ -5,4 +5,3 @@ This action prints "Hello World" or "Hello" + the name of a person to greet to t
 ## Uses jdk-maxim/hello-world-docker-action
 
 ## OK added superlinter since the docker one is not working
-
