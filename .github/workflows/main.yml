@@ -13,7 +13,7 @@ jobs:
 
     - name: Hello world action step
       id: hello
-      uses: jdk-maxim/hello-world-docker-action@v3
+      uses: jdk-maxim/hello-world-docker-action
       with:
         who-to-greet: 'Mona the Octocat'
         file-to-run: 'push_actions.sh'
