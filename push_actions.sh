@@ -3,21 +3,19 @@
 do_a_test_expect_success()
 {
 	echo
-	echo "\t ***> Running Test $2 with command: $1"
+	printf "\t ***> Running Test %s with command: %s\n" "$2" "$1"
 	echo
 
 	# Run the command, parameter 1
-	$1
-
-	if [ $? != 0 ]
+	if ! $1;
 	then
 		echo
-		echo "\t ***> Failed to $2"
+		printf "\t ***> Failed to %s\n" "$2"
 		echo
 		exit 1
 	else
 		echo
-		echo "\t ***> $2 Completed without Error"
+		printf "\t ***> %s Completed without Error\n" "$2"
 		echo
 	fi
 }
@@ -25,32 +23,31 @@ do_a_test_expect_success()
 do_a_test_expect_failure()
 {
 	echo
-	echo "\t ***> Running Test $2 with command: $1"
+	printf "\t ***> Running Test %s with command: %s\n" "$2" "$1"
 	echo
 
 	# Run the command, parameter 1
-	$1
 
-	if [ $? = 0 ]
+	if $1;
 	then
 		echo
-		echo "\t ***> $2 Completed without Error, but was expected to fail"
+		printf "\t ***> %s Completed without Error, but was expected to fail\n" "$2"
 		echo
 		exit 1
 	else
 		echo
-		echo "\t ***> $2 Failed as expected"
+		printf "\t ***> %s Failed as expected\n" "$2"
 		echo
 	fi
 }
 
 echo "Starting push actions"
 echo "Running on OS: $(uname -a)"
-which python3
+command -v python3
 python3 --version
 pip3 --version
 
-# FIXME: these should be in requirements.txt
+# FIXME: Should these be in requirements.txt ?
 pip3 install Cython 
 pip3 install pylint
 
