@@ -15,7 +15,7 @@ do_a_test_expect_success()
 		exit 1
 	else
 		echo
-		printf "\t ***> %s Completed without Error\n" "$2"
+		printf "\t ***> %s Completed, Success\n" "$2"
 		echo
 	fi
 }
@@ -36,7 +36,7 @@ do_a_test_expect_failure()
 		exit 1
 	else
 		echo
-		printf "\t ***> %s Failed as expected\n" "$2"
+		printf "\t ***> %s Failed as expected, Success\n" "$2"
 		echo
 	fi
 }
@@ -44,21 +44,29 @@ do_a_test_expect_failure()
 echo "Starting push actions"
 echo "Running on OS: $(uname -a)"
 command -v python3
+git --version
 python3 --version
 pip3 --version
 
 # FIXME: Should these be in requirements.txt ?
-pip3 install Cython 
+# FIXME: Shoudl not be needed? pip3 install Cython 
 pip3 install pylint
+pip3 install flake8
 
 pylint --version
+flake8 --version
 
-do_a_test_expect_success "pip3 install -r requirements.txt" "Install requirements.txt"
-do_a_test_expect_success "pip3 install -r requirements_distiller.txt" "Install requirements_distiller.txt"
+#do_a_test_expect_success "pip3 install -r requirements.txt" "Install requirements.txt"
+#do_a_test_expect_success "pip3 install -r requirements_distiller.txt" "Install requirements_distiller.txt"
 
 # command to check all python files modified in this commit
-# will NOT run in tensorflow docker unless git is installed
-#git diff master | grep "diff --" | grep "\.py$" | awk '{ print $4 }' | sed "s/^b/\./" | xargs pylint
+# will NOT run in pytorch docker unless git is installed
+echo "Gathering up all python files changed in last commit"
+LINT_LIST=$(git diff origin/master | grep "diff --" | grep "\.py$" | awk '{ print $4 }' | sed "s/^b/\./")
+echo "Python files changed: $LINT_LIST"
 
+do_a_test_expect_success "pylint $LINT_LIST" "pylint all python files modifed in this commit"
+
+# Fixme, find a way to not die on fixme type warnings/errors, pylint returns exit code 4 for these
 do_a_test_expect_success "pylint compute.py" "pylint compute.py"
 do_a_test_expect_failure "pylint bad_compute.py" "pylint bad_compute.py"
