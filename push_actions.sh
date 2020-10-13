@@ -62,7 +62,7 @@ flake8 --version
 # command to check all python files modified in this commit
 # will NOT run in pytorch docker unless git is installed
 echo "Gathering up all python files changed in last commit"
-LINT_LIST=$(git diff origin/master | grep "diff --" | grep "\.py$" | awk '{ print $4 }' | sed "s/^b/\./")
+LINT_LIST=$(git diff master^ | grep "diff --" | grep "\.py$" | awk '{ print $4 }' | sed "s/^b/\./")
 echo "Python files changed: $LINT_LIST"
 
 do_a_test_expect_success "pylint $LINT_LIST" "pylint all python files modifed in this commit"

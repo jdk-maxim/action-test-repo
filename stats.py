@@ -8,11 +8,11 @@
 ###################################################################################################
 """
 Statistics for the pure Python computation modules
-yup more tweaks
+yup more tweaks .
 """
 
 """
-pointless comment
+pointless comment mondified.
 """
 
 macc = 0  # Hardware multiply-accumulates (Conv2D, etc.)
