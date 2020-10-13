@@ -56,12 +56,35 @@ pip3 install flake8
 pylint --version
 flake8 --version
 
+echo "PWD $(pwd)
+echo "Changing to checkout directory..."
+cd $GITHUB_WORKSPACE
+echo "PWD $(pwd)
+echo "Directory contents: $(ls)"
+
+echo "git diff"
+git diff
+
+echo "git diff HEAD^"
+git diff HEAD^
+
+echo "git diff master^"
+git diff master^
+
 #do_a_test_expect_success "pip3 install -r requirements.txt" "Install requirements.txt"
 #do_a_test_expect_success "pip3 install -r requirements_distiller.txt" "Install requirements_distiller.txt"
 
 # command to check all python files modified in this commit
 # will NOT run in pytorch docker unless git is installed
 echo "Gathering up all python files changed in last commit"
+git log -n5
+git status
+echo "GITHUB_SHA: $GITHUB_SHA"
+git show $GITHUB_SHA
+echo "GITHUB_REF: $GITHUB_REF"
+git show $GITHUB_REF
+
+
 LINT_LIST=$(git diff master^ | grep "diff --" | grep "\.py$" | awk '{ print $4 }' | sed "s/^b/\./")
 echo "Python files changed: $LINT_LIST"
 
