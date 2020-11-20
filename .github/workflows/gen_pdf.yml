@@ -18,7 +18,7 @@ jobs:
         with:        
 
           # The latex template to use (defaults to one here)
-          latex_template: templates/latex.template.joss
+          #latex_template: templates/latex.template.joss
 
           # The markdown file to render,path is relative to repository
           # make sure that images are also relative to the root in the file
@@ -39,7 +39,7 @@ jobs:
           # A variables file to use
           #variables_file: templates/joss-variables.txt
  
-          # A mapping file to use
+          # A mapping file to u0se
           #mapping_file: templates/joss-mapping.txt
 
       - name: Upload full templated pdf as artifact
