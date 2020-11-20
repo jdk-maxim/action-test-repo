@@ -56,10 +56,7 @@ pip3 install flake8
 pylint --version
 flake8 --version
 
-echo "PWD $(pwd)
-echo "Changing to checkout directory..."
-cd $GITHUB_WORKSPACE
-echo "PWD $(pwd)
+echo "PWD $(pwd)"
 echo "Directory contents: $(ls)"
 
 echo "git diff"
